@@ -17,10 +17,13 @@ def dog_image_gallery():
   errors = []
   if request.method == "POST":
      breed = request.form.get("breed")
+     number = request.form.get("number")
      if not breed:
         errors.append("Oops! Please choose a breed.")
-     if breed:
-        response = requests.get("https://dog.ceo/api/breed/" + check_breed(breed) + "/images/random/30")
+     if not number:
+        errors.append("Oops! Please choose a number.")  
+     if breed and number:
+        response = requests.get("https://dog.ceo/api/breed/" + check_breed(breed) + "/images/random/" + number)
         data = response.json()
         dog_images = data["message"]
         return render_template("dogs.html", images=dog_images, breed=prettify_dog_breed(breed), errors=[])        
